@@ -1,9 +1,10 @@
 import java.util.*;
 
 /**
- * Compilation of my LeetCode solutions
+ * Compilation of my LeetCode solutions (mostly from Summer 2022)
  * 1. Date indicated for each sub-problem
  * 2. Currently incomplete solutions will be labeled #Working
+ * 3. My thinking is described in the javadocs for a handful of solutions that where I deemed it necessary
  *
  * @author Zayn Khan
  */
@@ -11,26 +12,6 @@ public class LeetSolutions {
 
     public static void main(String[] args)
     {
-        /*
-        String[] s = {"aabbcc", "aabbcc","e","aabc"};
-        String[] s2= {"aaaaa", "aaaa","aaa","aaa","aaaaa"};
-        String[] s3 ={"aba","cdc","eae"};
-        String[] s4 = {"aabbcc", "aabbcc","cb"};
-        String[] s5 = { "aabbcc", "aabbcc","cb","abc"};
-        String[] s6 = {"aabbcc", "aabbcc","c"};
-        String[] s7 = {"aabbcc", "aabbcc","e","aabc","aaabbbccc"};
-        String[] s8= {"aaaaa","aaaaa","aaa","aaa","aaaaaa","a","b","c"};
-        String[] s9= {"a","b","c","d","e","f","a","b","c","d","e"};
-        System.out.println(findLUSlength(s9));
-        System.out.println(isDupe(s9));
-        System.out.println(cleanString("aabbcc"));
-         int[] n ={0,1,2,2,3,0,4,2};
-        System.out.println(removeElement(n,2));
-        System.out.println(Arrays.toString(n));
-        int[] t = {7,1,5,3,6,4};
-        int[] t1 = {2,1};
-        System.out.println(maxProfit(t));
-        */
         String s = "cat";
         String t = "tac";
         System.out.println(isAnagram(s,t));
@@ -84,6 +65,9 @@ public class LeetSolutions {
 
     /**
      * Merge K-sorted lists (Hard) - 6-3-2022
+     * I'm surprised this approach was around the high 50th percentile for time-efficiency
+     * I iterated through all elements in the list once, appending them to a priority queue,
+     * then popping each item off the priority queue and adding it to a new linked-list in-order
      *
      * @param lists
      * @return
@@ -138,7 +122,7 @@ public class LeetSolutions {
           ListNode(int val, ListNode next) { this.val = val; this.next = next; }
       }
 
-      /*
+      /* Saving this here in case I actually need it
       public class Pair<k,v>
       {
           k key;
@@ -162,6 +146,9 @@ public class LeetSolutions {
     /**
      *
      * 5-31-2022 - 61. Rotate List (Medium)
+     * Getting the size of the linked-list through n-iterations already increases time-complexity
+     * My thinking was to determine the new position of each node using circular-indexing
+     * then inserting into a new list based on the new order which I store in a hashmap
      *
      * @param head
      * @param k
@@ -200,7 +187,14 @@ public class LeetSolutions {
     }
 
     /**
-     * 41. First Missing Positive (Hard, runtime constraints) - 5-31-2022
+     * 41. First Missing Positive (Hard) - 5-31-2022
+     * The only thing that ups the difficulty of this seemingly simple problem are the complexity constraints:
+     * O(1) space complexity and O(n) time-complexity at best
+     * I allocated a single counter variable which updates while it sees the next logical # in the sequence
+     * (this works fully if I pre-sort the array in ascending order)
+     * The counter works ahead of each iteration, if result is not equal to the current iteration,
+     * then the current result is the missing number
+     *
      *
      * @param nums
      * @return
@@ -217,7 +211,9 @@ public class LeetSolutions {
     }
     /**
      * 5-30-2022 - Valid Anagram (Easy)
-     *
+     * If the strings in sorted order are not equal,
+     * there is no possible arrangement of the chars that can make them similar
+     * 
      * @param s
      * @param t
      * @return
@@ -238,6 +234,7 @@ public class LeetSolutions {
     /**
      * 5-27-2022 - 1855. Max Distance Between Pair of Values (Medium)
      *
+     * 
      * @param nums1
      * @param nums2
      * @return
@@ -342,7 +339,7 @@ public class LeetSolutions {
      * 5-27-2022 - Longest Uncommon Subsequence II (Medium), I do not recommend this problem, there were issues upon
      * issues with this one for me, personally
      *
-     * Incomplete (#Working) 
+     * Incomplete (#Working)
      * @param strs
      * @return
      */
@@ -403,8 +400,9 @@ public class LeetSolutions {
 
     }
     /**
-     * 5-26-2022 - 66. Plus One (Easy)  
-     *
+     * 5-26-2022 - 66. Plus One (Easy)
+     * Fix carry-overs recursively, while the number at position 'x' + 1 is >= 10
+     * 
      * @param digits
      * @return
      */
@@ -487,7 +485,10 @@ public class LeetSolutions {
 
     /**
      * 5-25-2022
-     *
+     * Store each element and it's index as key-value pairs in a H.M.
+     * If the same element is found within index-range (k) of the current
+     * return true
+     * 
      * @param nums
      * @param k
      * @return
@@ -539,6 +540,11 @@ public class LeetSolutions {
     /**
      * 669. 5-23-2022 - Trim BST (Medium)
      * 3 methods below are helpers
+     * Approaching this in a similar manner as the recursive in-order, pre-order, or post-order traversals,
+     * but slightly different.  I put some good work into this problem and managed to get the optimal solution
+     * One of the bigger sub-problems for this one was re-structuring the tree if the main root had to be omitted
+     * Well? Just cut off either the left or right subtree while the root is still invalid 
+     * (ex: the root is less than the low-high range, so anything to the left/less can also be cut right away)
      *
      * @param root
      * @param low
@@ -599,7 +605,8 @@ public class LeetSolutions {
     /**
      * 5-17-2022
      * #Unoptimal
-     *
+     * This is quite messy
+     * 
      * @param list1
      * @param list2
      * @return
@@ -701,7 +708,7 @@ public class LeetSolutions {
     /**
      * 5-15-2022
      * Length of Last Word in a sentence (Easy)
-     *
+     * 
      * @param s
      * @return
      */
