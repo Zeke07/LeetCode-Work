@@ -9,8 +9,418 @@ import java.util.*;
  */
 public class LeetSolutions {
 
+    public static void main(String[] args)
+    {
+        /*
+        String[] s = {"aabbcc", "aabbcc","e","aabc"};
+        String[] s2= {"aaaaa", "aaaa","aaa","aaa","aaaaa"};
+        String[] s3 ={"aba","cdc","eae"};
+        String[] s4 = {"aabbcc", "aabbcc","cb"};
+        String[] s5 = { "aabbcc", "aabbcc","cb","abc"};
+        String[] s6 = {"aabbcc", "aabbcc","c"};
+        String[] s7 = {"aabbcc", "aabbcc","e","aabc","aaabbbccc"};
+        String[] s8= {"aaaaa","aaaaa","aaa","aaa","aaaaaa","a","b","c"};
+        String[] s9= {"a","b","c","d","e","f","a","b","c","d","e"};
+        System.out.println(findLUSlength(s9));
+        System.out.println(isDupe(s9));
+        System.out.println(cleanString("aabbcc"));
+         int[] n ={0,1,2,2,3,0,4,2};
+        System.out.println(removeElement(n,2));
+        System.out.println(Arrays.toString(n));
+        int[] t = {7,1,5,3,6,4};
+        int[] t1 = {2,1};
+        System.out.println(maxProfit(t));
+        */
+        String s = "cat";
+        String t = "tac";
+        System.out.println(isAnagram(s,t));
+    }
+
+
+    /*
+        public ListNode swapPairs(ListNode head) {
+            if (head == null || head.next == null) return head;
+
+            ListNode iterator = head;
+            while (iterator.next != null) {
+                ListNode left = iterator;
+                ListNode right = left.next;
+                ListNode next = right.next;
+                iterator.next = next;
+                iterator.next.next = iterator;
+
+
+            }
+        }
+        */
+
     /**
-     * 5-26-2022
+     * Assign Cookies (Easy) 6-3-2022
+     *
+     * @param g
+     * @param s
+     * @return
+     */
+    public int findContentChildren(int[] g, int[] s){
+
+        int satisfied=0;
+        Arrays.sort(s);
+        for (Integer i:g)
+        {
+            for (int j=0;j<s.length;j++)
+            {
+                if (s[j]>=i) {
+                    satisfied++;
+                    s[j]=0;
+                    break;
+                }
+            }
+        }
+
+        return satisfied;
+    }
+    /**
+     * Maximum Subarray 6-3-2022 (Easy)
+     *
+     * @param nums
+     * @return
+     */
+    public int maxSubArray(int[] nums) {
+
+        int max = nums[0];
+        int curr = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            curr += nums[i];
+            max=Math.max(max,curr);
+            curr=curr<0 ? 0:curr;
+        }
+
+        return max;
+    }
+
+    /**
+     * Merge K-sorted lists (Hard) - 6-3-2022
+     *
+     * @param lists
+     * @return
+     */
+    public ListNode mergeKLists(ListNode[] lists) {
+
+        if (lists.length==0)
+            return null;
+        PriorityQueue<Integer> result = new PriorityQueue<Integer>();
+        for (int i=0;i<lists.length;i++)
+        {
+            if (lists[i]==null)
+                continue;
+            ListNode iterator=lists[i];
+            while (iterator!=null)
+            {
+                result.add(iterator.val);
+                iterator=iterator.next;
+            }
+        }
+        ListNode head= !result.isEmpty() ? new ListNode(result.remove()): null;
+            ListNode copy=head;
+            while (!result.isEmpty()) {
+                copy.next = new ListNode(result.remove());
+                copy = copy.next;
+            }
+
+        return head;
+    }
+
+    /**
+     * 6-1-2022 - Running Sum of 1D Array (Easy)
+     *
+     * @param nums
+     * @return
+     */
+    public int[] runningSum(int[] nums) {
+        int[] result = new int[nums.length];
+        int runningSum=0;
+        for (int i=0;i<nums.length;i++)
+        {
+            runningSum+=nums[i];
+            result[i]=runningSum;
+        }
+        return result;
+    }
+      public class ListNode {
+          int val;
+          ListNode next;
+          ListNode() {}
+          ListNode(int val) { this.val = val; }
+          ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+      }
+
+      /*
+      public class Pair<k,v>
+      {
+          k key;
+          v value;
+          public Pair(k k, v v)
+          {
+              this.key=k;
+              this.value=v;
+          }
+          k getKey()
+          {
+              return key;
+          }
+          v getValue()
+          {
+              return value;
+          }
+      }
+      */
+
+    /**
+     *
+     * 5-31-2022 - 61. Rotate List (Medium)
+     *
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode rotateRight(ListNode head, int k) {
+        if (k==0 || head==null) return head;
+
+        HashMap<Integer, ListNode> arr = new HashMap<Integer,ListNode>();
+        ListNode iterator = head;
+        int size=0;
+        int position=0;
+
+        while (iterator!=null)
+        {
+            size++;
+            iterator=iterator.next;
+        }
+        iterator=head;
+        while (iterator!=null)
+        {
+            arr.put((position+k)%size,iterator);
+            position++;
+            iterator=iterator.next;
+        }
+        ListNode result=new ListNode(arr.get(0).val);
+        int count=1;
+        ListNode iterate=result;
+        while (count<size)
+        {
+            iterate.next=new ListNode(arr.get(count).val);
+            iterate=iterate.next;
+            count++;
+        }
+        return result;
+    }
+
+    /**
+     * 41. First Missing Positive (Hard, runtime constraints) - 5-31-2022
+     *
+     * @param nums
+     * @return
+     */
+    public int firstMissingPositive(int[] nums) {
+        int result=1;
+        Arrays.sort(nums);
+        for (int i=0;i<nums.length;i++)
+        {
+            if (result==nums[i])
+                result++;
+        }
+        return result;
+    }
+    /**
+     * 5-30-2022 - Valid Anagram (Easy)
+     *
+     * @param s
+     * @param t
+     * @return
+     */
+    public static boolean isAnagram(String s, String t) {
+        if (s.length()!=t.length()) return false;
+        char[] sortedS = s.toCharArray();
+        char[] sortedT = t.toCharArray();
+        Arrays.sort(sortedS);
+        Arrays.sort(sortedT);
+        for (int i=0; i<sortedS.length;i++)
+        {
+            if (sortedS[i]!=(sortedT[i])) return false;
+        }
+        return true;
+
+    }
+    /**
+     * 5-27-2022 - 1855. Max Distance Between Pair of Values (Medium)
+     *
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public int maxDistance(int[] nums1, int[] nums2) {
+        {
+            int i=0;
+            int j=0;
+            int maxDist=0;
+            while (i<nums1.length&&j<nums2.length)
+            {
+                if (nums1[i]>nums2[j])
+                    i++;
+                else
+                {
+                    maxDist=Math.max(j-i, maxDist);
+                    j++;
+                }
+            }
+            return maxDist;
+        }
+    }
+    /**
+     * 5-27-2022 - 2078. Farthest distance between two houses of different color (Easy)
+     *
+     * @param colors
+     * @return
+     */
+    public int maxDistance(int[] colors) {
+        int maxDist=0;
+        for (int i=0; i<colors.length-1;i++)
+        {
+            for (int j=i+1;j<colors.length;j++)
+            {
+                if (colors[i]!=colors[j])
+                    maxDist=Math.max(maxDist,j-i);
+            }
+        }
+        return maxDist;
+    }
+
+    /**
+     * 2016. Maximum Difference Between Increasing Elements (Easy)
+     * 5-27-2022
+     *
+     * @param nums
+     * @return
+     */
+    public int maximumDifference(int[] nums) {
+        int currNum=nums[0];
+        int maxDiff=0;
+        for (int i=0; i<nums.length;i++)
+        {
+            if (currNum<nums[i])
+                maxDiff=Math.max(maxDiff,nums[i]-currNum);
+            else currNum=nums[i];
+        }
+        return maxDiff<=0 ? -1: maxDiff;
+    }
+    /**
+     * 5-27-2022 - Buying and selling stock (Easy)
+     *
+     * @param prices
+     * @return
+     */
+    public static int maxProfit(int[] prices)
+    {
+        int currPrice=prices[0];
+        int profit=0;
+        for (int i=1; i<prices.length;i++)
+        {
+            if (prices[i]>currPrice)
+                profit = Math.max(profit,prices[i]-currPrice);
+            else currPrice=prices[i];
+        }
+        return profit<=0 ? 0:profit;
+    }
+
+    /**
+     * 5-27-2022: Remove from Array, in-place (Easy)
+     *
+     * @param nums
+     * @param val
+     * @return
+     */
+    public static int removeElement(int[] nums, int val)  {
+        int inplace=0;
+        for (int i=0;i<nums.length;i++)
+        {
+            if (val!=nums[i])
+            {
+                nums[inplace]=nums[i];
+                inplace++;
+            }
+
+        }
+        return inplace;
+
+    }
+
+    /**
+     * 5-27-2022 - Longest Uncommon Subsequence II (Medium), I do not recommend this problem, there were issues upon
+     * issues with this one for me, personally
+     *
+     * Incomplete (#Working) 
+     * @param strs
+     * @return
+     */
+    public static int findLUSlength(String[] strs) {
+        int maximum=0;
+        String maxStr="";
+        String longestSequence="";
+        if (isDupe(strs)) return -1;
+        for (int i=0; i<strs.length;i++)
+        {
+            if (strs[i].length()>maxStr.length())
+            {
+                maxStr=strs[i];
+                longestSequence=cleanString(maxStr);
+                maximum=maxStr.length();
+                continue;
+            }
+            String currSequence=cleanString(strs[i]);
+
+            if (!maxStr.equals(strs[i]))
+            {
+                int a = maxStr.contains(strs[i]) ? -1: Math.max(strs[i].length(),maxStr.length());
+                if (strs[i].length()>=maxStr.length()) maximum=a;
+                else if (!longestSequence.contains(currSequence)&&maximum==-1) maximum=strs[i].length();
+            }
+            else
+                maximum=-1;
+        }
+
+        return maximum;
+    }
+    public static String cleanString(String s)
+    {
+        String result="";
+        for (int i=0;i<s.length();i++)
+        {
+            result+= !result.contains(s.substring(i,i+1)) ? s.substring(i,i+1):"";
+        }
+        return result;
+    }
+    public static boolean isDupe(String[] str)
+    {
+        HashMap<String,String> set = new HashMap<String,String>();
+        int maxLength=0;
+        int tally=0;
+        boolean length=true;
+        List<Integer> tallies = new ArrayList<Integer>();
+        for (int i=0;i<str.length;i++)
+        {
+            if (set.containsKey(str[i])) tallies.add(2);
+            else set.put(str[i],str[i]);
+            maxLength = Math.max(maxLength, str[i].length());
+            if (str[i].length() != maxLength&&i!=0) length = false;
+        }
+        for (Integer i: tallies)
+            tally+=i;
+    return tally==str.length&&length;
+
+    }
+    /**
+     * 5-26-2022 - 66. Plus One (Easy)  
      *
      * @param digits
      * @return
@@ -42,7 +452,7 @@ public class LeetSolutions {
     }
 
     /**
-     * 5-25-2022
+     * 5-25-2022 str() - Easy
      *
      * @param haystack
      * @param needle
@@ -144,7 +554,7 @@ public class LeetSolutions {
       }
 
     /**
-     * 5-23-2022
+     * 669. 5-23-2022 - Trim BST (Medium)
      * 3 methods below are helpers
      *
      * @param root
@@ -307,6 +717,7 @@ public class LeetSolutions {
 
     /**
      * 5-15-2022
+     * Length of Last Word in a sentence (Easy)
      *
      * @param s
      * @return
@@ -345,7 +756,7 @@ public class LeetSolutions {
     }
 
     /**
-     * 3-18-2022
+     * 3-18-2022 Two Sum (Easy)
      *
      * @param nums
      * @param target
