@@ -1,4 +1,7 @@
 class validParen:
+    '''
+    Uses a stack to check if each "{,(,[" is closed in the same order that it appears starting from right->left
+    '''
     def isValid(self, s):
         """
         :type s: str
