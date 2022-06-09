@@ -37,23 +37,6 @@ public class LeetSolutions {
     }
 
 
-    /*
-        public ListNode swapPairs(ListNode head) {
-            if (head == null || head.next == null) return head;
-
-            ListNode iterator = head;
-            while (iterator.next != null) {
-                ListNode left = iterator;
-                ListNode right = left.next;
-                ListNode next = right.next;
-                iterator.next = next;
-                iterator.next.next = iterator;
-
-
-            }
-        }
-        */
-
     /**
      * Assign Cookies (Easy) 6-3-2022
      *
